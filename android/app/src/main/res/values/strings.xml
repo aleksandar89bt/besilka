@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Погоди го зборот</string>
+    <string name="title_activity_main">Погоди го зборот</string>
+    <string name="package_name">com.pogodigozborot.app</string>
+    <string name="custom_url_scheme">com.pogodigozborot.app</string>
+</resources>

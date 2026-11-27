@@ -7,6 +7,7 @@ import { VirtualKeyboard } from './components/VirtualKeyboard';
 import { WordDisplay } from './components/WordDisplay';
 import { CATEGORIES } from './data/words';
 import { useHangman } from './hooks/useHangman';
+import { initializeAds, showBannerAd, hideBannerAd } from './services/adService';
 
 // Mapping for physical keyboard fallback (Latin/Cyrillic to Macedonian)
 const KEY_MAPPING: Record<string, string> = {
@@ -39,6 +40,17 @@ export function App() {
     startNewRound,
   } = useHangman();
 
+  // Initialize Ads on mount
+  useEffect(() => {
+    initializeAds().then(() => {
+      showBannerAd();
+    });
+    
+    return () => {
+      hideBannerAd();
+    };
+  }, []);
+
   const keyboardInputRef = useRef<HTMLInputElement | null>(null);
 
   const triggerPhoneKeyboard = () => {
@@ -68,8 +80,11 @@ export function App() {
     CATEGORIES.find((c) => c.id === currentWord.category)?.labelMk ?? '';
 
   return (
-    <div className="min-h-dvh bg-slate-950 text-slate-100 flex flex-col items-center px-3 py-4">
+    <div className="min-h-dvh bg-slate-950 text-slate-100 flex flex-col items-center px-3 py-4 pb-16 pb-[calc(3rem+env(safe-area-inset-bottom))] pt-[calc(1rem+env(safe-area-inset-top))]">
       <div className="w-full max-w-md flex flex-col gap-3.5">
+        {/* Dedicated Top Banner Ad Spacer for Mobile Devices */}
+        <div className="h-14 shrink-0" aria-hidden="true" />
+
         {/* Header */}
         <header className="flex items-center justify-between px-1">
           <div>
